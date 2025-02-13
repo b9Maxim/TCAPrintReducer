@@ -1,9 +1,9 @@
 
 import OSLog
 
-@attached(member, names: named(swiftLog))
+@attached(member, names: named(reducerLogger))
 public macro ReducerPrinterLog(
     subsystem: String,
     category: String,
-    level: OSLogType = .default
+    level: OSLogType = .info
 ) = #externalMacro(module: "TCAPrintReducerMacros", type: "TCAPrintReducerMacro")

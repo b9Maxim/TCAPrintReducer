@@ -14,28 +14,39 @@ public struct TCAPrintReducerMacro: MemberMacro {
         let subsystemArg = arguments?.first(where: { $0.label?.text == "subsystem" })?.expression.description ?? "\"default.subsystem\""
         let categoryArg = arguments?.first(where: { $0.label?.text == "category" })?.expression.description ?? "\"default.category\""
         let levelArg = arguments?.first(where: { $0.label?.text == "level" })?.expression.description ?? ".default"
-
-        // Generate the `swiftLog` function
-        let generatedFunction = """
-        private static func swiftLog(
-            _ level: OSLogType = \(levelArg)
-        ) -> _ReducerPrinter<State, Action> {
-            let logger = Logger(
-                subsystem: \(subsystemArg),
-                category: \(categoryArg)
-            )
-            return _ReducerPrinter { receivedAction, oldState, newState in
-                var message = "received action:\\n"
-                CustomDump.customDump(receivedAction, to: &message, indent: 2)
-                message.write("\\n")
-                message.write(diff(oldState, newState).map { "\\($0)\\n" } ?? "  (No state changes)\\n")
-                logger.log(level: level, "\\(message)")
-            }
-        }
-        """
+        
+        let generatedStruct = """
+                struct ReducerLogger {
+                    private let logger = Logger(subsystem: \(subsystemArg), category: \(categoryArg))
+                    
+                    func log(_ level: OSLogType = .debug, _ message: String) {
+                        logger.log(level: level, "\\(message)")
+                    }
+                    
+                    func swiftLog(
+                        _ level: OSLogType = \(levelArg)
+                    ) -> _ReducerPrinter<State, Action> {
+                        let logger = Logger(
+                            subsystem: \(subsystemArg),
+                            category: \(categoryArg)
+                        )
+                        return _ReducerPrinter { receivedAction, oldState, newState in
+                            var message = "received action:\\n"
+                            CustomDump.customDump(receivedAction, to: &message, indent: 2)
+                            message.write("\\n")
+                            message.write(diff(oldState, newState).map { "\\($0)\\n" } ?? "  (No state changes)\\n")
+                            logger.log(level: level, "\\(message)")
+                        }
+                    }
+                }
+                """
+        
+        // Generate the `reducerLogger` instance
+        let generatedInstance = "let reducerLogger = ReducerLogger()"
         // Return the generated code
         return [
-            DeclSyntax(stringLiteral: generatedFunction)
+            DeclSyntax(stringLiteral: generatedStruct),
+            DeclSyntax(stringLiteral: generatedInstance)
         ]
     }
 }
