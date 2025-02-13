@@ -1,7 +1,7 @@
 
 import OSLog
 
-@attached(member)
+@attached(member, names: named(swiftLog))
 public macro ReducerPrinterLog(
     subsystem: String,
     category: String,
