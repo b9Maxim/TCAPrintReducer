@@ -1,7 +1,12 @@
 
 import OSLog
 
-@attached(member, names: named(reducerLogger))
+@attached(
+    member,
+    names:
+        named(ReducerLogger),
+        named(reducerLogger)
+)
 public macro ReducerPrinterLog(
     subsystem: String,
     category: String,
