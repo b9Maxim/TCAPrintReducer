@@ -35,13 +35,11 @@ public struct TCAPrintReducerMacro: MemberMacro {
                                     subsystem: \(subsystemArg),
                                     category: \(categoryArg)
                                 )
-                                return _ReducerPrinter { receivedAction, oldState, newState in
-                                    var message = "received action:\\n"
-                                    CustomDump.customDump(receivedAction, to: &message, indent: 2)
-                                    message.write("\\n")
-                                    message.write(diff(oldState, newState).map { "\\($0)\\n" } ?? "  (No state changes)\\n")
-                                    logger.log(level: level, "\\(message)")
-                                }
+                                var message = "received action:\\n"
+                                CustomDump.customDump(receivedAction, to: &message, indent: 2)
+                                message.write("\\n")
+                                message.write(diff(oldState, newState).map { "\\($0)\\n" } ?? "  (No state changes)\\n")
+                                logger.log(level: level, "\\(message)")
                             }
                         }
                     }
