@@ -18,7 +18,7 @@ public struct TCAPrintReducerMacro: MemberMacro {
         let generatedStruct = """
                 struct ReducerLogger {
                     private let logger = Logger(subsystem: \(subsystemArg), category: \(categoryArg))
-                    
+                    private let isPreview = ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1"
                     func log(_ level: OSLogType = .debug, _ message: String) {
                         logger.log(level: level, "\\(message)")
                     }
@@ -26,24 +26,25 @@ public struct TCAPrintReducerMacro: MemberMacro {
                     func swiftLog(
                         _ level: OSLogType = \(levelArg)
                     ) -> _ReducerPrinter<State, Action> {
-                #if DEBUG
-                        return .customDump
-                #else
-                        return _ReducerPrinter { receivedAction, oldState, newState in
-                            
-                            let logger = Logger(
-                                subsystem: \(subsystemArg),
-                                category: \(categoryArg)
-                            )
+                        let isRunningInPreview = NSClassFromString("XCTestCase") == nil && isPreview
+                        if isRunningInPreview {
+                            return .customDump
+                        } else {
                             return _ReducerPrinter { receivedAction, oldState, newState in
-                                var message = "received action:\\n"
-                                CustomDump.customDump(receivedAction, to: &message, indent: 2)
-                                message.write("\\n")
-                                message.write(diff(oldState, newState).map { "\\($0)\\n" } ?? "  (No state changes)\\n")
-                                logger.log(level: level, "\\(message)")
+                                
+                                let logger = Logger(
+                                    subsystem: \(subsystemArg),
+                                    category: \(categoryArg)
+                                )
+                                return _ReducerPrinter { receivedAction, oldState, newState in
+                                    var message = "received action:\\n"
+                                    CustomDump.customDump(receivedAction, to: &message, indent: 2)
+                                    message.write("\\n")
+                                    message.write(diff(oldState, newState).map { "\\($0)\\n" } ?? "  (No state changes)\\n")
+                                    logger.log(level: level, "\\(message)")
+                                }
                             }
                         }
-                #endif
                     }
                 }
                 """
