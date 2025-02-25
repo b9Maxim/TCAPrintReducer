@@ -18,7 +18,7 @@ public struct TCAPrintReducerMacro: MemberMacro {
         let generatedStruct = """
                 struct ReducerLogger {
                     private let logger = Logger(subsystem: \(subsystemArg), category: \(categoryArg))
-                    private let isPreview = ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1"
+                
                     func log(_ level: OSLogType = .debug, _ message: String) {
                         logger.log(level: level, "\\(message)")
                     }
@@ -26,8 +26,7 @@ public struct TCAPrintReducerMacro: MemberMacro {
                     func swiftLog(
                         _ level: OSLogType = \(levelArg)
                     ) -> _ReducerPrinter<State, Action> {
-                        let isRunningInPreview = NSClassFromString("XCTestCase") == nil && isPreview
-                        if isRunningInPreview {
+                        if ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1" {
                             return .customDump
                         } else {
                             return _ReducerPrinter { receivedAction, oldState, newState in
