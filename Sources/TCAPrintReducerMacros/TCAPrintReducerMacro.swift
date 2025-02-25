@@ -45,6 +45,7 @@ public struct TCAPrintReducerMacro: MemberMacro {
                         }
                 #endif
                     }
+                }
                 """
         
         // Generate the `reducerLogger` instance
