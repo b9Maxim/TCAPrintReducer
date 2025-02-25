@@ -26,19 +26,25 @@ public struct TCAPrintReducerMacro: MemberMacro {
                     func swiftLog(
                         _ level: OSLogType = \(levelArg)
                     ) -> _ReducerPrinter<State, Action> {
-                        let logger = Logger(
-                            subsystem: \(subsystemArg),
-                            category: \(categoryArg)
-                        )
+                #if DEBUG
+                        return .customDump
+                #else
                         return _ReducerPrinter { receivedAction, oldState, newState in
-                            var message = "received action:\\n"
-                            CustomDump.customDump(receivedAction, to: &message, indent: 2)
-                            message.write("\\n")
-                            message.write(diff(oldState, newState).map { "\\($0)\\n" } ?? "  (No state changes)\\n")
-                            logger.log(level: level, "\\(message)")
+                            
+                            let logger = Logger(
+                                subsystem: \(subsystemArg),
+                                category: \(categoryArg)
+                            )
+                            return _ReducerPrinter { receivedAction, oldState, newState in
+                                var message = "received action:\\n"
+                                CustomDump.customDump(receivedAction, to: &message, indent: 2)
+                                message.write("\\n")
+                                message.write(diff(oldState, newState).map { "\\($0)\\n" } ?? "  (No state changes)\\n")
+                                logger.log(level: level, "\\(message)")
+                            }
                         }
+                #endif
                     }
-                }
                 """
         
         // Generate the `reducerLogger` instance
