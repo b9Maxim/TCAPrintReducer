@@ -17,3 +17,12 @@ public macro ReducerPrinterLog(
 public macro LoadingState(
     
 ) = #externalMacro(module: "TCAPrintReducerMacros", type: "LoadingStateMacro")
+
+
+@attached(member, names: named(loadingState))
+@attached(accessor, names: named(init), named(get), named(set))
+@attached(peer, names: prefixed(_))
+public macro LoadingState2(
+    
+) = #externalMacro(module: "TCAPrintReducerMacros", type: "LoadingState2Macro")
+
