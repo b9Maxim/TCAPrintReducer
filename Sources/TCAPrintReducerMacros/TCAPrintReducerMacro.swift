@@ -256,7 +256,7 @@ var loadingState: LoadingOverlayState = .none
     }
 }
 
-public struct LoadingStateMacro2: AccessorMacro {
+public struct LoadingState2Macro: AccessorMacro {
     static let registrarVariableName = "_$observationRegistrar"
     static let ignoredMacroName = "ObservationStateIgnored"
     static var ignoredAttribute: AttributeSyntax {
@@ -295,7 +295,7 @@ public struct LoadingStateMacro2: AccessorMacro {
         let getAccessor: AccessorDeclSyntax =
       """
       get {
-      \(raw: LoadingStateMacro2.registrarVariableName).access(self, keyPath: \\.\(identifier))
+      \(raw: LoadingState2Macro.registrarVariableName).access(self, keyPath: \\.\(identifier))
       return _\(identifier)
       }
       """
@@ -303,7 +303,7 @@ public struct LoadingStateMacro2: AccessorMacro {
         let setAccessor: AccessorDeclSyntax =
       """
       set {
-      \(raw: LoadingStateMacro2.registrarVariableName).mutate(self, keyPath: \\.\(identifier), &_\(identifier), newValue, _$isIdentityEqual)
+      \(raw: LoadingState2Macro.registrarVariableName).mutate(self, keyPath: \\.\(identifier), &_\(identifier), newValue, _$isIdentityEqual)
       }
       """
         let modifyAccessor: AccessorDeclSyntax = """
@@ -320,7 +320,7 @@ public struct LoadingStateMacro2: AccessorMacro {
     }
 }
 
-extension LoadingStateMacro2: PeerMacro {
+extension LoadingState2Macro: PeerMacro {
     public static func expansion<
         Context: MacroExpansionContext,
         Declaration: DeclSyntaxProtocol
@@ -336,7 +336,7 @@ extension LoadingStateMacro2: PeerMacro {
         }
         
         let storage = DeclSyntax(
-            property.privatePrefixed("_", addingAttribute: LoadingStateMacro2.ignoredAttribute))
+            property.privatePrefixed("_", addingAttribute: LoadingState2Macro.ignoredAttribute))
         return [storage]
     }
 }
@@ -346,6 +346,6 @@ struct TCAPrintReducerPlugin: CompilerPlugin {
     let providingMacros: [Macro.Type] = [
         TCAPrintReducerMacro.self,
         LoadingStateMacro.self,
-        LoadingStateMacro2.self
+        LoadingState2Macro.self
     ]
 }
