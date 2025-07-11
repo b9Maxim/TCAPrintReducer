@@ -62,7 +62,11 @@ public struct LoadingStateMacro: MemberMacro {
         providingMembersOf declaration: some DeclGroupSyntax,
         in context: some MacroExpansionContext
     ) throws -> [DeclSyntax] {
-        let newProperty = try VariableDeclSyntax("var loadingState: LoadingOverlayState = .none")
+        let newProperty = try VariableDeclSyntax("""
+@ObservationStateTracked 
+var loadingState: LoadingOverlayState = .none
+"""
+        )
         return [DeclSyntax(newProperty)]
     }
 }
