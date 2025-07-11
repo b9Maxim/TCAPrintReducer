@@ -256,22 +256,7 @@ var loadingState: LoadingOverlayState = .none
     }
 }
 
-public struct LoadingStateMacro2: MemberMacro {
-    public static func expansion(
-        of node: AttributeSyntax,
-        providingMembersOf declaration: some DeclGroupSyntax,
-        in context: some MacroExpansionContext
-    ) throws -> [DeclSyntax] {
-        let newProperty = try VariableDeclSyntax("""
-@ObservationStateTracked 
-var loadingState: LoadingOverlayState = .none
-"""
-        )
-        return [DeclSyntax(newProperty)]
-    }
-}
-
-extension LoadingStateMacro2: AccessorMacro {
+public struct LoadingStateMacro2: AccessorMacro {
     static let registrarVariableName = "_$observationRegistrar"
     static let ignoredMacroName = "ObservationStateIgnored"
     static var ignoredAttribute: AttributeSyntax {
