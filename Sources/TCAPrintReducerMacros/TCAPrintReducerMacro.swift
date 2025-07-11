@@ -248,7 +248,7 @@ public struct LoadingStateMacro: MemberMacro {
         in context: some MacroExpansionContext
     ) throws -> [DeclSyntax] {
         let newProperty = try VariableDeclSyntax("""
-@LoadingStateMacro2 
+@LoadingState2Macro 
 var loadingState: LoadingOverlayState = .none
 """
         )
