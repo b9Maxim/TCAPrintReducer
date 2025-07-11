@@ -56,9 +56,21 @@ public struct TCAPrintReducerMacro: MemberMacro {
     }
 }
 
+public struct LoadingStateMacro: MemberMacro {
+    public static func expansion(
+        of node: AttributeSyntax,
+        providingMembersOf declaration: some DeclGroupSyntax,
+        in context: some MacroExpansionContext
+    ) throws -> [DeclSyntax] {
+        let newProperty = try VariableDeclSyntax("var loadingState: LoadingOverlayState = .none")
+        return [DeclSyntax(newProperty)]
+    }
+}
+
 @main
 struct TCAPrintReducerPlugin: CompilerPlugin {
     let providingMacros: [Macro.Type] = [
         TCAPrintReducerMacro.self,
+        LoadingStateMacro.self
     ]
 }
