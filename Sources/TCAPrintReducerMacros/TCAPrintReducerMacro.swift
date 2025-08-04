@@ -60,6 +60,7 @@ public struct TCAPrintReducerMacro: MemberMacro {
 struct TCAPrintReducerPlugin: CompilerPlugin {
     let providingMacros: [Macro.Type] = [
         TCAPrintReducerMacro.self,
-        LoadingStateMacro.self
+        LoadingStateMacro.self,
+        LoadableStateMacro.self
     ]
 }
