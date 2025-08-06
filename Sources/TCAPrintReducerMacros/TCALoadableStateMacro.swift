@@ -40,6 +40,32 @@ public struct LoadableStateMacro: MemberMacro {
                 }
             }
             private var _loadingState: LoadingState = .none
+            
+            var errorAlert: AlertState<AlertAction>?
+            {
+                @storageRestrictions(initializes: _errorAlert)
+                init(initialValue) {
+                    _errorAlert = PresentationState(wrappedValue: initialValue)
+                }
+                get {
+                    _$observationRegistrar.access(self, keyPath: \\.errorAlert)
+                    return _errorAlert.wrappedValue
+                }
+                set {
+                    _$observationRegistrar.mutate(self, keyPath: \\.errorAlert, &_errorAlert.wrappedValue, newValue, _$isIdentityEqual)
+                }
+            }
+            var $errorAlert: ComposableArchitecture.PresentationState<AlertState<AlertAction>> {
+                get {
+                    _$observationRegistrar.access(self, keyPath: \\.errorAlert)
+                    return _errorAlert.projectedValue
+                }
+                set {
+                    _$observationRegistrar.mutate(self, keyPath: \\.errorAlert, &_errorAlert.projectedValue, newValue, _$isIdentityEqual)
+                }
+            }
+
+            @ObservationStateIgnored private var _errorAlert = ComposableArchitecture.PresentationState<AlertState<AlertAction>>(wrappedValue: nil)
             """
         ]
     }

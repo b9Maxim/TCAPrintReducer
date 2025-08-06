@@ -27,7 +27,11 @@ public macro LoadingState(
     member,
     names:
         named(loadingState),
-        named(_loadingState)
+        named(_loadingState),
+        named(errorAlert),
+        named(_errorAlert),
+        named($errorAlert)
+    
 )
 public macro LoadableState(
     
