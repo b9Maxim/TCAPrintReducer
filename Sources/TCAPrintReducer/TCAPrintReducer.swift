@@ -1,39 +1,35 @@
-
 import OSLog
 
 @attached(
-    member,
-    names:
-        named(ReducerLogger),
-        named(reducerLogger)
+  member,
+  names:
+    named(ReducerLogger),
+  named(reducerLogger)
 )
 public macro ReducerPrinterLog(
-    subsystem: String,
-    category: String,
-    level: OSLogType = .info
+  subsystem: String,
+  category: String,
+  level: OSLogType = .info
 ) = #externalMacro(module: "TCAPrintReducerMacros", type: "TCAPrintReducerMacro")
 
 @attached(
-    member,
-    names:
-        named(loadingState),
-        named(_loadingState)
+  member,
+  names:
+    named(loadingState),
+  named(_loadingState),
+  named(errorAlert),
+  named(_errorAlert),
+  named($errorAlert)
+
 )
-public macro LoadingState(
-    
-) = #externalMacro(module: "TCAPrintReducerMacros", type: "LoadingStateMacro")
+public macro LoadableState() =
+  #externalMacro(module: "TCAPrintReducerMacros", type: "LoadableStateMacro")
 
 @attached(
-    member,
-    names:
-        named(loadingState),
-        named(_loadingState),
-        named(errorAlert),
-        named(_errorAlert),
-        named($errorAlert)
-    
+  member,
+  names:
+    named(init),
+  named(mapping)
 )
-public macro LoadableState(
-    
-) = #externalMacro(module: "TCAPrintReducerMacros", type: "LoadableStateMacro")
-
+public macro EasyMappable() =
+  #externalMacro(module: "TCAPrintReducerMacros", type: "EasyMappableMacro")
