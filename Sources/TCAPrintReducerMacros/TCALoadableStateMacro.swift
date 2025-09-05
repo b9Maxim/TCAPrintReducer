@@ -41,7 +41,7 @@ public struct LoadableStateMacro: MemberMacro {
             }
             private var _loadingState: LoadingState = .none
             
-            var errorAlert: AlertState<AlertAction>?
+            var errorAlert: AlertState<Destination>?
             {
                 @storageRestrictions(initializes: _errorAlert)
                 init(initialValue) {
@@ -55,7 +55,7 @@ public struct LoadableStateMacro: MemberMacro {
                     _$observationRegistrar.mutate(self, keyPath: \\.errorAlert, &_errorAlert.wrappedValue, newValue, _$isIdentityEqual)
                 }
             }
-            var $errorAlert: ComposableArchitecture.PresentationState<AlertState<AlertAction>> {
+            var $errorAlert: ComposableArchitecture.PresentationState<AlertState<Destination>> {
                 get {
                     _$observationRegistrar.access(self, keyPath: \\.errorAlert)
                     return _errorAlert.projectedValue
@@ -65,7 +65,7 @@ public struct LoadableStateMacro: MemberMacro {
                 }
             }
 
-            @ObservationStateIgnored private var _errorAlert = ComposableArchitecture.PresentationState<AlertState<AlertAction>>(wrappedValue: nil)
+            @ObservationStateIgnored private var _errorAlert = ComposableArchitecture.PresentationState<AlertState<Destination>>(wrappedValue: nil)
             """
         ]
     }
