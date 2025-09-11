@@ -15,7 +15,9 @@ let package = Package(
     )
   ],
   dependencies: [
-    .package(url: "https://github.com/swiftlang/swift-syntax.git", from: "510.0.3")
+    .package(url: "https://github.com/swiftlang/swift-syntax.git", from: "510.0.3"),
+    .package(url: "https://github.com/pointfreeco/swift-composable-architecture.git", from: "1.21.1"),
+    .package(url: "https://github.com/tristanhimmelman/ObjectMapper.git", branch: "4.4.3")
   ],
   targets: [
     // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -40,5 +42,16 @@ let package = Package(
     // Library that exposes a macro as part of its API, which is used in client programs.
     .target(
       name: "TCAPrintReducer", dependencies: ["TCAPrintReducerMacros", "TCAPrintReducerTypes"]),
+
+    // Example target to demonstrate macro usage
+    .executableTarget(
+      name: "MacroExamples",
+      dependencies: [
+        .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
+        .product(name: "ObjectMapper", package: "ObjectMapper"),
+        "TCAPrintReducer"
+      ],
+      path: "Examples"
+    ),
   ]
 )

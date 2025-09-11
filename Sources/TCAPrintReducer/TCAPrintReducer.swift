@@ -6,59 +6,54 @@ public typealias CacheContainerNoDataFound = TCAPrintReducerTypes.CacheContainer
 public typealias CacheContainerProtocol = TCAPrintReducerTypes.CacheContainerProtocol
 
 @attached(
-  member,
-  names:
+    member,
+    names:
     named(ReducerLogger),
-  named(reducerLogger)
+    named(reducerLogger)
 )
 public macro ReducerPrinterLog(
-  subsystem: String,
-  category: String,
-  level: OSLogType = .info
+    subsystem: String,
+    category: String,
+    level: OSLogType = .info
 ) =
-  #externalMacro(
-    module: "TCAPrintReducerMacros",
-    type: "TCAPrintReducerMacro"
-  )
+    #externalMacro(
+        module: "TCAPrintReducerMacros",
+        type: "TCAPrintReducerMacro"
+    )
 
 @attached(
-  member,
-  names:
+    member,
+    names:
     named(loadingState),
-  named(_loadingState),
-  named(errorAlert),
-  named(_errorAlert),
-  named($errorAlert)
-
+    named(_loadingState),
+    named(errorAlert),
+    named(_errorAlert),
+    named($errorAlert)
 )
 public macro LoadableState() =
-  #externalMacro(
-    module: "TCAPrintReducerMacros",
-    type: "LoadableStateMacro"
-  )
+    #externalMacro(
+        module: "TCAPrintReducerMacros",
+        type: "LoadableStateMacro"
+    )
 
 @attached(
-  member,
-  names:
+    member,
+    names:
     named(init),
-  named(mapping)
+    named(mapping)
 )
 public macro EasyMappable() =
-  #externalMacro(
-    module: "TCAPrintReducerMacros",
-    type: "EasyMappableMacro"
-  )
+    #externalMacro(
+        module: "TCAPrintReducerMacros",
+        type: "EasyMappableMacro"
+    )
 
 @attached(
-  member,
-  names: named(Container)
-)
-@attached(
-  extension,
-  conformances: Sendable
+    member,
+    names: named(Container)
 )
 public macro InMemoryContainer() =
-  #externalMacro(
-    module: "TCAPrintReducerMacros",
-    type: "InMemoryContainerMacro"
-  )
+    #externalMacro(
+        module: "TCAPrintReducerMacros",
+        type: "InMemoryContainerMacro"
+    )

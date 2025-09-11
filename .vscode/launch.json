@@ -1,0 +1,22 @@
+{
+    "configurations": [
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:TCAPrintReducer}",
+            "name": "Debug MacroExamples",
+            "program": "${workspaceFolder:TCAPrintReducer}/.build/debug/MacroExamples",
+            "preLaunchTask": "swift: Build Debug MacroExamples"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:TCAPrintReducer}",
+            "name": "Release MacroExamples",
+            "program": "${workspaceFolder:TCAPrintReducer}/.build/release/MacroExamples",
+            "preLaunchTask": "swift: Build Release MacroExamples"
+        }
+    ]
+}
