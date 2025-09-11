@@ -64,7 +64,7 @@ public struct LoadableStateMacro: MemberMacro {
                     _$observationRegistrar.mutate(self, keyPath: \\.errorAlert, &_errorAlert.projectedValue, newValue, _$isIdentityEqual)
                 }
             }
-
+            
             @ObservationStateIgnored private var _errorAlert = ComposableArchitecture.PresentationState<AlertState<Destination>>(wrappedValue: nil)
             """
         ]

@@ -1,4 +1,9 @@
 import OSLog
+import TCAPrintReducerTypes
+
+// Re-export types for external visibility
+public typealias CacheContainerNoDataFound = TCAPrintReducerTypes.CacheContainerNoDataFound
+public typealias CacheContainerProtocol = TCAPrintReducerTypes.CacheContainerProtocol
 
 @attached(
   member,
@@ -10,7 +15,11 @@ public macro ReducerPrinterLog(
   subsystem: String,
   category: String,
   level: OSLogType = .info
-) = #externalMacro(module: "TCAPrintReducerMacros", type: "TCAPrintReducerMacro")
+) =
+  #externalMacro(
+    module: "TCAPrintReducerMacros",
+    type: "TCAPrintReducerMacro"
+  )
 
 @attached(
   member,
@@ -23,7 +32,10 @@ public macro ReducerPrinterLog(
 
 )
 public macro LoadableState() =
-  #externalMacro(module: "TCAPrintReducerMacros", type: "LoadableStateMacro")
+  #externalMacro(
+    module: "TCAPrintReducerMacros",
+    type: "LoadableStateMacro"
+  )
 
 @attached(
   member,
@@ -32,4 +44,21 @@ public macro LoadableState() =
   named(mapping)
 )
 public macro EasyMappable() =
-  #externalMacro(module: "TCAPrintReducerMacros", type: "EasyMappableMacro")
+  #externalMacro(
+    module: "TCAPrintReducerMacros",
+    type: "EasyMappableMacro"
+  )
+
+@attached(
+  member,
+  names: named(Container)
+)
+@attached(
+  extension,
+  conformances: Sendable
+)
+public macro InMemoryContainer() =
+  #externalMacro(
+    module: "TCAPrintReducerMacros",
+    type: "InMemoryContainerMacro"
+  )

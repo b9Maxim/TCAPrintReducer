@@ -1,2 +1,6 @@
 
 .build/
+
+.swiftpm/xcode/package.xcworkspace/xcuserdata/maxim.xcuserdatad/
+
+.swiftpm/xcode/xcuserdata/maxim.xcuserdatad/xcschemes/
