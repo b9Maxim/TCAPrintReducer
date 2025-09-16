@@ -26,9 +26,8 @@ public macro ReducerPrinterLog(
     names:
     named(loadingState),
     named(_loadingState),
-    named(errorAlert),
-    named(_errorAlert),
-    named($errorAlert)
+    named(errorAlertState),
+    named(_errorAlertState)
 )
 public macro LoadableState() =
     #externalMacro(

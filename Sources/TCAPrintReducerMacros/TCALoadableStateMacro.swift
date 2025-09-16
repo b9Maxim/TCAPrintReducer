@@ -41,31 +41,28 @@ public struct LoadableStateMacro: MemberMacro {
             }
             private var _loadingState: LoadingState = .none
             
-            var errorAlert: AlertState<Destination>?
+            var errorAlertState: TCAAlertViewFeature.State = .init()
             {
-                @storageRestrictions(initializes: _errorAlert)
+                @storageRestrictions(initializes: _errorAlertState)
                 init(initialValue) {
-                    _errorAlert = PresentationState(wrappedValue: initialValue)
+                    _errorAlertState = initialValue
                 }
                 get {
-                    _$observationRegistrar.access(self, keyPath: \\.errorAlert)
-                    return _errorAlert.wrappedValue
+                    _$observationRegistrar.access(self, keyPath: \\.errorAlertState)
+                    return _errorAlertState
                 }
                 set {
-                    _$observationRegistrar.mutate(self, keyPath: \\.errorAlert, &_errorAlert.wrappedValue, newValue, _$isIdentityEqual)
+                    _$observationRegistrar.mutate(self, keyPath: \\.errorAlertState, &_errorAlertState, newValue, _$isIdentityEqual)
+                }
+                _modify {
+                  let oldValue = _$observationRegistrar.willModify(self, keyPath: \\.errorAlertState, &_errorAlertState)
+                  defer {
+                    _$observationRegistrar.didModify(self, keyPath: \\.errorAlertState, &_errorAlertState, oldValue, _$isIdentityEqual)
+                  }
+                  yield &_errorAlertState
                 }
             }
-            var $errorAlert: ComposableArchitecture.PresentationState<AlertState<Destination>> {
-                get {
-                    _$observationRegistrar.access(self, keyPath: \\.errorAlert)
-                    return _errorAlert.projectedValue
-                }
-                set {
-                    _$observationRegistrar.mutate(self, keyPath: \\.errorAlert, &_errorAlert.projectedValue, newValue, _$isIdentityEqual)
-                }
-            }
-            
-            @ObservationStateIgnored private var _errorAlert = ComposableArchitecture.PresentationState<AlertState<Destination>>(wrappedValue: nil)
+            @ObservationStateIgnored private  var _errorAlertState: TCAAlertViewFeature.State = .init()
             """
         ]
     }
