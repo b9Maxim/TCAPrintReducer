@@ -15,7 +15,7 @@ let package = Package(
     )
   ],
   dependencies: [
-    .package(url: "https://github.com/swiftlang/swift-syntax.git", from: "510.0.3"),
+    .package(url: "https://github.com/swiftlang/swift-syntax.git", from: "601.0.1"),
     .package(url: "https://github.com/pointfreeco/swift-composable-architecture.git", from: "1.21.1"),
     .package(url: "https://github.com/tristanhimmelman/ObjectMapper.git", branch: "4.4.3")
   ],
